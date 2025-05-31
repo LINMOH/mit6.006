@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIT 6.006 算法导论 - 讲座1：导论</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @media print {
+            @page {
+                margin: 2cm;
+                size: A4;
+            }
+            
+            body {
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .course-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .university {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .instructors {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .lecture-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: #000;
+        }
+        
+        p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        .indent {
+            margin-left: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12px;
+        }
+        
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        
+        .algorithm-table {
+            margin: 20px 0;
+            font-size: 11px;
+        }
+        
+        .algorithm-table th {
+            background-color: #f0f0f0;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #666;
+            text-align: left;
+        }
+        
+        .strong {
+            font-weight: bold;
+        }
+        
+        .math {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="course-title">算法导论：6.006</div>
+        <div class="university">麻省理工学院</div>
+        <div class="instructors">讲师：Erik Demaine、Jason Ku 和 Justin Solomon</div>
+    </div>
+
+    <div style="text-align: center;">
+        <h1>讲座 1：导论</h1>
+    </div>
+    
+
+    <p>本课程的目标是教会你如何解决计算问题，并说明你的解决方案是<span class="strong">正确</span>且<span class="strong">高效</span>的。</p>
+
+    <h3>问题</h3>
+    <ul>
+        <li>问题输入与正确输出之间的二元关系</li>
+        <li>通常不会为所有输入指定每一个正确输出（太多了！）</li>
+        <li>提供一个可验证的谓词（属性），正确输出必须满足它</li>
+        <li>6.006 研究的是<span class="strong">大规模、通用输入空间</span>上的问题</li>
+        <li>非通用：小输入实例
+            <div class="indent">
+                <ul>
+                    <li>例子：这个房间里是否有两位同生日的学生？</li>
+                </ul>
+            </div>
+        </li>
+        <li>通用：任意大的输入
+            <div class="indent">
+                <ul>
+                    <li>例子：给定任意 n 位学生，是否存在一对同生日的学生？</li>
+                    <li>若生日只在 365 天中选，对于 n > 365，根据鸽巢原理，答案一定为真</li>
+                    <li>假设生日的精度超过 n（包含年份、时间等）</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h3>算法</h3>
+    <ul>
+        <li>一个过程：将每个输入映射到一个输出（确定性）</li>
+        <li>若算法对每个问题输入都返回正确输出，则称其<span class="strong">解决了该问题</span></li>
+        <li>例子：一个解决同生日问题的算法
+            <div class="indent">
+                <ul>
+                    <li>保持一个姓名和生日的记录（初始为空）</li>
+                    <li>按某个顺序询问每个学生<br>
+                        ∗ 若生日已在记录中，返回这对学生！<br>
+                        ∗ 否则，将姓名和生日加入记录</li>
+                    <li>若全部学生都询问完仍无结果，则返回 None</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h3>正确性</h3>
+    <ul>
+        <li>程序/算法是有限大小，如何证明其正确？</li>
+        <li>对于小输入，可使用<span class="strong">情况分析</span></li>
+        <li>对于任意大的输入，算法必须以某种方式使用<span class="strong">递归</span>或<span class="strong">循环</span></li>
+        <li>必须使用<span class="strong">数学归纳法</span>（递归在计算机科学中的关键原因）</li>
+        <li>例子：生日匹配算法的正确性证明
+            <div class="indent">
+                <ul>
+                    <li>对 k 归纳：记录中已有的学生数量</li>
+                    <li>假设：若前 k 位中有匹配，算法在询问第 k+1 位前就返回</li>
+                    <li>基础情况：k = 0，前 k 位无匹配</li>
+                    <li>假设归纳假设对 k = k₀ 成立，考虑 k = k₀ + 1</li>
+                    <li>若前 k₀ 位已有匹配，算法已返回（由归纳）</li>
+                    <li>否则，若前 k₀ + 1 位有匹配，匹配一定包含第 k₀ + 1 位</li>
+                    <li>那么算法直接检查第 k₀ + 1 位学生的生日是否已在记录中</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h3>效率</h3>
+    <ul>
+        <li>算法生成正确输出的速度有多快？
+            <div class="indent">
+                <ul>
+                    <li>可用时间测量，但希望性能<span class="strong">不依赖于机器</span></li>
+                    <li>想法！统计算法返回前执行的固定时间操作数</li>
+                    <li>通常依赖输入大小：输入越大，时间越长</li>
+                    <li>输入大小通常称为 <span class="math">n</span>，但不总是！</li>
+                    <li>若算法以<span class="strong">多项式时间</span>返回，则称其为高效</li>
+                    <li>有时某些问题<span class="strong">不存在高效算法</span>！（参见第 20 讲）</li>
+                </ul>
+            </div>
+        </li>
+        <li>渐进符号（Asymptotic Notation）：忽略常数因子与低阶项
+            <div class="indent">
+                <ul>
+                    <li>上界 (O)、下界 (Ω)、紧界 (Θ)</li>
+                    <li>时间估计基于：1GHz 单核机器，每周期执行一次操作</li>
+                    <li>宇宙中的粒子数估计 < 10¹⁰⁰</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <table>
+        <tr>
+            <th>输入规模</th>
+            <th>常数</th>
+            <th>对数</th>
+            <th>线性</th>
+            <th>对数线性</th>
+            <th>二次</th>
+            <th>多项式</th>
+            <th>指数</th>
+        </tr>
+        <tr>
+            <td><span class="math">n</span></td>
+            <td>Θ(1)</td>
+            <td>Θ(log n)</td>
+            <td>Θ(n)</td>
+            <td>Θ(n log n)</td>
+            <td>Θ(n²)</td>
+            <td>Θ(n^c)</td>
+            <td>2^Θ(n^c)</td>
+        </tr>
+        <tr>
+            <td>1000</td>
+            <td>1</td>
+            <td>≈ 10</td>
+            <td>1000</td>
+            <td>≈ 10,000</td>
+            <td>1,000,000</td>
+            <td>1000^c</td>
+            <td>2^1000 ≈ 10^301</td>
+        </tr>
+        <tr>
+            <td>Time</td>
+            <td>1 ns</td>
+            <td>10 ns</td>
+            <td>1 µs</td>
+            <td>10 µs</td>
+            <td>1 ms</td>
+            <td>10^(3c−9) s</td>
+            <td>10^281 millenia</td>
+        </tr>
+    </table>
+
+    <h3>计算模型</h3>
+    <ul>
+        <li>指定机器能以 O(1) 时间执行哪些操作</li>
+        <li>本课程使用的模型称为 <span class="strong">Word-RAM</span></li>
+        <li>机器字：w 位的块（w 为字长）</li>
+        <li>内存：可寻址的机器字序列</li>
+        <li>处理器支持对 O(1) 数量的机器字执行许多 O(1) 时间操作：
+            <div class="indent">
+                <ul>
+                    <li>整数运算：(+、-、*、//、%)</li>
+                    <li>逻辑操作符：(&&, ||, !, ==, <, >, <=, >=)</li>
+                    <li>位运算：(&, |, <<, >>, ...)</li>
+                    <li>给定地址 a：可读取、写入地址 a 的机器字</li>
+                </ul>
+            </div>
+        </li>
+        <li>内存地址必须能访问内存中所有位置
+            <div class="indent">
+                <ul>
+                    <li>要求：w ≥ 表示最大地址所需的位数，即 log₂n</li>
+                    <li>32 位字 → 最多约 4GB 内存</li>
+                    <li>64 位字 → 最多约 16EB 内存</li>
+                </ul>
+            </div>
+        </li>
+        <li>Python 是一个更复杂的计算模型，<span class="strong">基于 Word-RAM 实现</span></li>
+    </ul>
+
+    <h3>数据结构</h3>
+    <ul>
+        <li>数据结构是一种用于存储<span class="strong">非常量数据</span>，并支持一组操作的方法</li>
+        <li>一组操作称为<span class="strong">接口</span>
+            <div class="indent">
+                <ul>
+                    <li>Sequence（序列）：外在顺序（第一个、最后一个、第 n 个）</li>
+                    <li>Set（集合）：内在属性排序（基于键的查询）</li>
+                </ul>
+            </div>
+        </li>
+        <li>同一接口可能由不同数据结构实现，性能也不同</li>
+        <li>例子：静态数组（Static Array）
+            <div class="indent">
+                <ul>
+                    <li>固定宽度槽位，固定长度，静态序列接口</li>
+                    <li><code>StaticArray(n)</code>：分配大小为 n 的静态数组并初始化为 0，耗时 Θ(n)</li>
+                    <li><code>StaticArray.get_at(i)</code>：返回索引 i 处的值，耗时 Θ(1)</li>
+                    <li><code>StaticArray.set_at(i, x)</code>：将 x 写入索引 i，耗时 Θ(1)</li>
+                    <li>存储的机器字也可存放更大对象的地址</li>
+                </ul>
+            </div>
+        </li>
+        <li>类似 Python 的 tuple 加上 set_at(i, x)</li>
+        <li>Python list 是<span class="strong">动态数组</span>（详见第 2 讲）</li>
+    </ul>
+
+    <h3>示例代码：生日匹配</h3>
+    <div class="code-block">def birthday_match(students):
+    '''
+    找到一对同生日的学生
+    输入：由 (name, bday) 元组构成的元组
+    输出：学生姓名组成的元组或 None
+    '''
+    n = len(students)            # O(1)
+    record = StaticArray(n)      # O(n)
+    for k in range(n):           # n
+        (name1, bday1) = students[k]  # O(1)
+        # 若生日已在记录中，返回这对学生
+        for i in range(k):       # k
+            (name2, bday2) = record.get_at(i)  # O(1)
+            if bday1 == bday2:   # O(1)
+                return (name1, name2)  # O(1)
+        record.set_at(k, (name1, bday1))  # O(1)
+    return None                  # O(1)</div>
+
+    <h3>示例：运行时间分析</h3>
+    <ul>
+        <li>两层循环：外层 k ∈ {0, ..., n−1}，内层 i ∈ {0, ..., k}</li>
+        <li>运行时间为：O(n) + ∑ₖ₌₀ⁿ⁻¹ (O(1) + k·O(1)) = O(n²)</li>
+        <li>n 的二次方是<span class="strong">多项式时间</span>，算高效吗？
+            <div class="indent">
+                <ul>
+                    <li>改用其他数据结构来优化 record！</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h3>如何解决算法问题</h3>
+    <p><span class="strong">1. 转化为你已知的问题</span>（使用数据结构或算法）</p>
+
+    <table class="algorithm-table">
+        <tr>
+            <th>搜索问题（数据结构）</th>
+            <th>排序算法</th>
+            <th>最短路径算法</th>
+        </tr>
+        <tr>
+            <td>Static Array (L01)</td>
+            <td>Insertion Sort (L03)</td>
+            <td>BFS (L09)</td>
+        </tr>
+        <tr>
+            <td>Linked List (L02)</td>
+            <td>Selection Sort (L03)</td>
+            <td>DAG Relax (L11)</td>
+        </tr>
+        <tr>
+            <td>Dynamic Array (L02)</td>
+            <td>Merge Sort (L03)</td>
+            <td>DFS (L10)</td>
+        </tr>
+        <tr>
+            <td>Sorted Array (L03)</td>
+            <td>Counting Sort (L05)</td>
+            <td>Topo Sort (L10)</td>
+        </tr>
+        <tr>
+            <td>Direct-Access Array (L04)</td>
+            <td>Radix Sort (L05)</td>
+            <td>Bellman-Ford (L12)</td>
+        </tr>
+        <tr>
+            <td>Hash Table (L04)</td>
+            <td>AVL Sort (L07)</td>
+            <td>Dijkstra (L13)</td>
+        </tr>
+        <tr>
+            <td>Balanced BST (L06-L07)</td>
+            <td>Heap Sort (L08)</td>
+            <td>Johnson (L14)</td>
+        </tr>
+        <tr>
+            <td>Binary Heap (L08)</td>
+            <td></td>
+            <td>Floyd-Warshall (L18)</td>
+        </tr>
+    </table>
+
+    <p><span class="strong">2. 自行设计（递归）算法</span></p>
+    <ul>
+        <li>暴力破解</li>
+        <li>减而治之</li>
+        <li>分治</li>
+        <li><span class="strong">动态规划</span>（第 15–19 讲）</li>
+        <li>贪心 / 增量法</li>
+    </ul>
+
+    <div class="footer">
+        <p>MIT 开放式课程资料平台<br>
+        <a href="https://ocw.mit.edu">https://ocw.mit.edu</a><br>
+        6.006 《算法导论》<br>
+        2020 春季学期</p>
+        
+        <p>如需引用材料或查看使用条款，请访问： <a href="https://ocw.mit.edu/terms">https://ocw.mit.edu/terms</a></p>
+    </div>
+</body>
+</html>
